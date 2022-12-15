@@ -1,6 +1,6 @@
 import create from "zustand";
 import { withLenses, lens } from "@dhmk/zustand-lens";
-import exampleSlice, { ExampleStore } from "./example.slice";
+import slice, { ExampleStore } from "./example.slice";
 
 export type StoreState = {
   example: ExampleStore;
@@ -8,6 +8,6 @@ export type StoreState = {
 
 export const useStore = create(
   withLenses({
-    example: exampleSlice,
+    example: slice,
   })
 );

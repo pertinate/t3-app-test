@@ -1,4 +1,5 @@
-import { Lens, lens } from "@dhmk/zustand-lens";
+import { Lens, lens, ResolveStoreApi, Setter } from "@dhmk/zustand-lens";
+import { GetState } from "zustand";
 import { getMsg } from "../helpers/example";
 
 const state = {
@@ -6,17 +7,22 @@ const state = {
   msg: "",
 };
 
-export type ExampleState = typeof state;
+export type State = typeof state;
 
-export type ExampleActions = {
+export type Actions = {
   increase: (by: number) => void;
   getMsg: (msg: string) => void;
 };
 
-export type ExampleStore = ExampleState & ExampleActions;
-const exampleSlice: Lens<ExampleStore> = (set, get, api) => {
+export type ExampleStore = State & Actions;
+
+const actions: (
+  set: Setter<ExampleStore>,
+  get: GetState<ExampleStore>,
+  api: ResolveStoreApi<unknown>,
+  path: ReadonlyArray<string>
+) => Actions = (set, get, api): Actions => {
   return {
-    ...state,
     increase: (by) => {
       set({ counter: get().counter + 1 });
     },
@@ -26,4 +32,11 @@ const exampleSlice: Lens<ExampleStore> = (set, get, api) => {
   };
 };
 
-export default lens(exampleSlice);
+const slice: Lens<ExampleStore> = (set, get, api, path) => {
+  return {
+    ...state,
+    ...actions(set, get, api, path),
+  };
+};
+
+export default lens(slice);
