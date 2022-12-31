@@ -15,9 +15,9 @@ const Home: NextPage = () => {
   );
   const store = useStore();
   useEffect(() => {
-    store.example.getMsg(hello.data?.greeting || "");
+    store.other.getMsg(hello.data?.greeting || "");
     const interval = setInterval(() => {
-      store.example.increase(2);
+      store.other.increase(2);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -42,8 +42,8 @@ const Home: NextPage = () => {
               <h3 className="text-2xl font-bold">First Steps →</h3>
               <div className="text-lg">
                 Just the basics - Everything you need to know to set up your
-                database and authentication. {store.example.counter} -{" "}
-                {store.example.msg}
+                database and authentication. {store.other.counter} -{" "}
+                {store.example.counter}
               </div>
             </Link>
             <Link

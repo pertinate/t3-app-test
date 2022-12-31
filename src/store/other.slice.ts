@@ -14,17 +14,18 @@ export type Actions = {
   getMsg: (msg: string) => void;
 };
 
-export type ExampleStore = State & Actions;
+export type OtherStore = State & Actions;
 
 const actions: (
-  set: Setter<ExampleStore>,
-  get: Getter<ExampleStore>,
+  set: Setter<OtherStore>,
+  get: Getter<OtherStore>,
   api: StoreApi<StoreState>,
   path: ReadonlyArray<string>
 ) => Actions = (set, get, api): Actions => {
   return {
     increase: (by) => {
-      set({ counter: get().counter + by });
+      set({ counter: get().counter + 1 });
+      api.getState().example.increase(2);
     },
     getMsg: (msg: string) => {
       set({ msg });
@@ -32,7 +33,7 @@ const actions: (
   };
 };
 
-const slice: Lens<ExampleStore, StoreState> = (set, get, api, path) => {
+const slice: Lens<OtherStore, StoreState> = (set, get, api, path) => {
   return {
     ...state,
     ...actions(set, get, api, path),
